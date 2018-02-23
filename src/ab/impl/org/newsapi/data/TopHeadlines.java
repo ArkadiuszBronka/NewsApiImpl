@@ -5,9 +5,9 @@ import java.util.List;
 public class TopHeadlines {
 
 	private String status;
-
+	private String code;
+	private String message;
 	private int totalResults;
-
 	private List<Article> articles;
 
 	public String getStatus() {
@@ -16,6 +16,22 @@ public class TopHeadlines {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public int getTotalResults() {
