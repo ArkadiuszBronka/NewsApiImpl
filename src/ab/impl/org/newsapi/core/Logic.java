@@ -6,6 +6,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+import ab.impl.org.newsapi.data.Result;
 import ab.impl.org.newsapi.data.TopHeadlines;
 
 public class Logic {
@@ -47,9 +48,12 @@ public class Logic {
 		this.page = page;
 	}
 	
-	public TopHeadlines readData() {
+	public Result readData() {
 		TopHeadlines topHeadlines = readDataFromSource();
-		return addResponseData(topHeadlines);
+		Result result = new Result();
+		result.setArticles(topHeadlines.getArticles());
+		result = extendResponseData(result);
+		return result;
 	}
 
 	private TopHeadlines readDataFromSource()
@@ -76,7 +80,7 @@ public class Logic {
 		}
 		
 		System.out.println(webTarget.toString());
-		System.out.println(webTarget.getUri().toString());
+		//System.out.println(webTarget.getUri().toString());
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header(Configuration.API_KEY_NAME, Configuration.API_KEY_VALUE);
 	
 		TopHeadlines topHeadlines = invocationBuilder.get(TopHeadlines.class);
@@ -84,10 +88,10 @@ public class Logic {
 		return topHeadlines;
 	}
 
-	private TopHeadlines addResponseData(TopHeadlines topHeadlines) {
-		topHeadlines.setLang(lang);
-		topHeadlines.setCategory(category);
+	private Result extendResponseData(Result result) {
+		result.setCounty(lang);
+		result.setCategory(category);
 		
-		return topHeadlines;
+		return result;
 	}
 }

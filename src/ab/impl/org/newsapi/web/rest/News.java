@@ -10,7 +10,8 @@ import javax.ws.rs.core.Response;
 
 import ab.impl.org.newsapi.core.Logic;
 import ab.impl.org.newsapi.data.Article;
-import ab.impl.org.newsapi.data.TopHeadlines;
+import ab.impl.org.newsapi.data.Result;
+
 
 @Path("news")
 public class News {
@@ -18,11 +19,8 @@ public class News {
 	@GET
 	@Path("{lang}/{category}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response helloRestClient(
-			@PathParam("lang") String lang,
-			@PathParam("category") String category,
-			@QueryParam("pageSize") String pageSize,
-			@QueryParam("page") String page) {
+	public Response helloRestClient(@PathParam("lang") String lang, @PathParam("category") String category,
+			@QueryParam("pageSize") String pageSize, @QueryParam("page") String page) {
 
 		Logic logic = new Logic();
 		logic.setLang(lang);
@@ -30,21 +28,23 @@ public class News {
 		logic.setPageSize(pageSize);
 		logic.setPage(page);
 
-		TopHeadlines topHeadlines = logic.readData();
+		Result result = logic.readData();
 
-		return Response.status(200).entity(topHeadlines).build();
+		return Response.status(200).entity(result).build();
 	}
-	
+
 	public static void main(String[] args) {
 		Logic logic = new Logic();
 		logic.setLang("pl");
 		logic.setCategory("technology");
 
-		TopHeadlines topHeadlines = logic.readData();
-		
-		System.out.println("Status:" + topHeadlines.getStatus() + ", errorCode:" + topHeadlines.getCode() + ", message:" + topHeadlines.getMessage() + " count:" + topHeadlines.getTotalResults());
-		
-		for (Article article : topHeadlines.getArticles()) {
+		Result result = logic.readData();
+
+		// System.out.println("Status:" + result.getStatus() + ", errorCode:" +
+		// result.getCode() + ", message:" + result.getMessage() + " count:" +
+		// result.getTotalResults());
+		System.out.println("Language:" + result.getCountry() + ", category:" + result.getCategory());
+		for (Article article : result.getArticles()) {
 			System.out.println(article);
 		}
 	}

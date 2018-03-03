@@ -15,6 +15,14 @@ public class Article {
 	private String urlToImage;
 	private Date publishedAt;
 
+	@JsonbProperty("sourceName")
+	public String getSourceName() {
+		if (source != null) {
+			return source.getName();
+		}
+		return null;
+	}
+
 	@JsonbTransient
 	public Source getSource() {
 		return source;
@@ -22,11 +30,6 @@ public class Article {
 
 	public void setSource(Source source) {
 		this.source = source;
-	}
-
-	@JsonbProperty("sourceName")
-	public String getSourceName() {
-		return source.getName();
 	}
 
 	public String getAuthor() {
@@ -52,7 +55,7 @@ public class Article {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
+	
 	@JsonbProperty("articleUrl")
 	public String getUrl() {
 		return url;
@@ -70,7 +73,7 @@ public class Article {
 	public void setUrlToImage(String urlToImage) {
 		this.urlToImage = urlToImage;
 	}
-
+	
 	@JsonbProperty("date")
 	@JsonbDateFormat("yyyy-MM-dd")
 	public Date getPublishedAt() {
