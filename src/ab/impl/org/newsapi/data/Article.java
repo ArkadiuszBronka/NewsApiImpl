@@ -2,6 +2,10 @@ package ab.impl.org.newsapi.data;
 
 import java.util.Date;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
+
 public class Article {
 	private Source source;
 	private String author;
@@ -11,12 +15,18 @@ public class Article {
 	private String urlToImage;
 	private Date publishedAt;
 
+	@JsonbTransient
 	public Source getSource() {
 		return source;
 	}
 
 	public void setSource(Source source) {
 		this.source = source;
+	}
+
+	@JsonbProperty("sourceName")
+	public String getSourceName() {
+		return source.getName();
 	}
 
 	public String getAuthor() {
@@ -43,6 +53,7 @@ public class Article {
 		this.description = description;
 	}
 
+	@JsonbProperty("articleUrl")
 	public String getUrl() {
 		return url;
 	}
@@ -51,6 +62,7 @@ public class Article {
 		this.url = url;
 	}
 
+	@JsonbProperty("imageUrl")
 	public String getUrlToImage() {
 		return urlToImage;
 	}
@@ -59,6 +71,8 @@ public class Article {
 		this.urlToImage = urlToImage;
 	}
 
+	@JsonbProperty("date")
+	@JsonbDateFormat("yyyy-MM-dd")
 	public Date getPublishedAt() {
 		return publishedAt;
 	}

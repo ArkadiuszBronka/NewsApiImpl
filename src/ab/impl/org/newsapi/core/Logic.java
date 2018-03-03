@@ -6,7 +6,6 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import ab.impl.org.newsapi.data.Article;
 import ab.impl.org.newsapi.data.TopHeadlines;
 
 public class Logic {
@@ -49,54 +48,46 @@ public class Logic {
 	}
 	
 	public TopHeadlines readData() {
-		return readDataFromSource();
+		TopHeadlines topHeadlines = readDataFromSource();
+		return addResponseData(topHeadlines);
 	}
 
 	private TopHeadlines readDataFromSource()
 	{
-		// https://newsapi.org/v2/top-headlines?country=pl&apiKey=2c2274ddbc5340afb9dbe54ad525aabf&category=technology
-
-		System.out.println("lang=" + lang + " category=" + category + " pageSize=" + pageSize + " page=" + page);
-		
 		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target("https://newsapi.org");
-		webTarget = webTarget.path("/v2/top-headlines");
-		webTarget = webTarget.queryParam("apiKey", "2c2274ddbc5340afb9dbe54ad525aabf");
+		WebTarget webTarget = client.target(Configuration.URL);
+		webTarget = webTarget.path(Configuration.PATH);
 		
 		if(lang != null) {
-			webTarget = webTarget.queryParam("country", lang);
+			webTarget = webTarget.queryParam(Configuration.LANG, lang);
 		}
 		
 		if(category != null) {
-			webTarget = webTarget.queryParam("category", category);
+			webTarget = webTarget.queryParam(Configuration.CATEGORY, category);
 		}
 		
+		
 		if(pageSize != null) {
-			webTarget = webTarget.queryParam("pageSize", pageSize);
+			webTarget = webTarget.queryParam(Configuration.PAGE_SIZE, pageSize);
 		}
 		
 		if(page !=null) {
-			webTarget = webTarget.queryParam("page", page);
+			webTarget = webTarget.queryParam(Configuration.PAGE, page);
 		}
 		
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-
-		TopHeadlines topHeadlines = invocationBuilder.get(TopHeadlines.class);
+		System.out.println(webTarget.toString());
+		System.out.println(webTarget.getUri().toString());
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header(Configuration.API_KEY_NAME, Configuration.API_KEY_VALUE);
 	
+		TopHeadlines topHeadlines = invocationBuilder.get(TopHeadlines.class);
+		
 		return topHeadlines;
 	}
 
-	public static void main(String[] args) {
-		Logic logic = new Logic();
-		logic.setLang("pl");
-		logic.setCategory("technology");
-
-		TopHeadlines topHeadlines = logic.readData();
+	private TopHeadlines addResponseData(TopHeadlines topHeadlines) {
+		topHeadlines.setLang(lang);
+		topHeadlines.setCategory(category);
 		
-		System.out.println("Status:" + topHeadlines.getStatus() + ", errorCode:" + topHeadlines.getCode() + ", message:" + topHeadlines.getMessage() + " count:" + topHeadlines.getTotalResults());
-		
-		for (Article article : topHeadlines.getArticles()) {
-			System.out.println(article);
-		}
+		return topHeadlines;
 	}
 }
