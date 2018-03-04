@@ -1,5 +1,8 @@
 package ab.impl.org.newsapi.core;
 
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -15,7 +18,7 @@ public class Logic {
 	private String category;
 	private String pageSize;
 	private String page;
-	
+
 	public String getLang() {
 		return lang;
 	}
@@ -47,51 +50,55 @@ public class Logic {
 	public void setPage(String page) {
 		this.page = page;
 	}
-	
+
 	public Result readData() {
-		TopHeadlines topHeadlines = readDataFromSource();
-		Result result = new Result();
-		result.setArticles(topHeadlines.getArticles());
-		result = extendResponseData(result);
+		Result result = readDataFromSource();
 		return result;
 	}
 
-	private TopHeadlines readDataFromSource()
-	{
+	private TopHeadlines readDataFromSource() {
 		Client client = ClientBuilder.newClient();
 		WebTarget webTarget = client.target(Configuration.URL);
 		webTarget = webTarget.path(Configuration.PATH);
-		
-		if(lang != null) {
+
+		if (lang != null) {
 			webTarget = webTarget.queryParam(Configuration.LANG, lang);
 		}
-		
-		if(category != null) {
+
+		if (category != null) {
 			webTarget = webTarget.queryParam(Configuration.CATEGORY, category);
 		}
-		
-		
-		if(pageSize != null) {
+
+		if (pageSize != null) {
 			webTarget = webTarget.queryParam(Configuration.PAGE_SIZE, pageSize);
 		}
-		
-		if(page !=null) {
+
+		if (page != null) {
 			webTarget = webTarget.queryParam(Configuration.PAGE, page);
 		}
-		
+
 		System.out.println(webTarget.toString());
-		//System.out.println(webTarget.getUri().toString());
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header(Configuration.API_KEY_NAME, Configuration.API_KEY_VALUE);
-	
-		TopHeadlines topHeadlines = invocationBuilder.get(TopHeadlines.class);
-		
+		// System.out.println(webTarget.getUri().toString());
+		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON)
+				.header(Configuration.API_KEY_NAME, Configuration.API_KEY_VALUE);
+
+		TopHeadlines topHeadlines = null;
+		try {
+			topHeadlines = invocationBuilder.get(TopHeadlines.class);
+		} catch (NotFoundException | NotAuthorizedException | BadRequestException e) {
+			// TODO: handle exception
+			System.out.println(e.getMessage());
+		}
+
+		topHeadlines = extendResponseData(topHeadlines);
+
 		return topHeadlines;
 	}
 
-	private Result extendResponseData(Result result) {
-		result.setCounty(lang);
-		result.setCategory(category);
-		
-		return result;
+	private TopHeadlines extendResponseData(TopHeadlines topHeadlines) {
+		topHeadlines.setLang(lang);
+		topHeadlines.setCategory(category);
+
+		return topHeadlines;
 	}
 }

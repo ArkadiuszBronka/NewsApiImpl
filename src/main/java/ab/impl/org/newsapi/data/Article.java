@@ -55,7 +55,7 @@ public class Article {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@JsonbProperty("articleUrl")
 	public String getUrl() {
 		return url;
@@ -73,7 +73,7 @@ public class Article {
 	public void setUrlToImage(String urlToImage) {
 		this.urlToImage = urlToImage;
 	}
-	
+
 	@JsonbProperty("date")
 	@JsonbDateFormat("yyyy-MM-dd")
 	public Date getPublishedAt() {

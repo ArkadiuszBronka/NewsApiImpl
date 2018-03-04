@@ -2,33 +2,16 @@ package ab.impl.org.newsapi.data;
 
 import java.util.List;
 
-public class Result {
-	
-	private List<Article> articles;
-	private String country;
-	private String category;
-	
-	public List<Article> getArticles() {
-		return articles;
-	}
+public interface Result {
+	public List<Article> getArticles();
 
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
-	}
+	public String getCountry();
 
-	public String getCountry() {
-		return country;
-	}
+	public String getCategory();
 
-	public void setCounty(String country) {
-		this.country = country;
-	}
+	public String getErrorCode();
 
-	public String getCategory() {
-		return category;
-	}
+	public String getErrorMesage();
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+	public int getAvailableArticlesToFetch();
 }

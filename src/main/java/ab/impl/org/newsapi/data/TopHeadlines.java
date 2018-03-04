@@ -2,22 +2,18 @@ package ab.impl.org.newsapi.data;
 
 import java.util.List;
 
-import javax.json.bind.annotation.JsonbTransient;
+public class TopHeadlines implements Result {
 
-public class TopHeadlines {
-
-	@JsonbTransient
 	private String status;
 	private String code;
 	private String message;
-	
-	@JsonbTransient
+
 	private int totalResults;
 	private List<Article> articles;
 
 	private String lang;
 	private String category;
-	
+
 	public String getStatus() {
 		return status;
 	}
@@ -42,10 +38,6 @@ public class TopHeadlines {
 		this.message = message;
 	}
 
-	public int getTotalResults() {
-		return totalResults;
-	}
-
 	public void setTotalResults(int totalResults) {
 		this.totalResults = totalResults;
 	}
@@ -58,10 +50,6 @@ public class TopHeadlines {
 		this.articles = articles;
 	}
 
-	public String getLang() {
-		return lang;
-	}
-
 	public void setLang(String lang) {
 		this.lang = lang;
 	}
@@ -72,5 +60,25 @@ public class TopHeadlines {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	@Override
+	public String getCountry() {
+		return lang;
+	}
+
+	@Override
+	public String getErrorCode() {
+		return getCode();
+	}
+
+	@Override
+	public String getErrorMesage() {
+		return getMessage();
+	}
+
+	@Override
+	public int getAvailableArticlesToFetch() {
+		return totalResults;
 	}
 }

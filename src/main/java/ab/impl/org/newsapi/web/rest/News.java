@@ -12,7 +12,6 @@ import ab.impl.org.newsapi.core.Logic;
 import ab.impl.org.newsapi.data.Article;
 import ab.impl.org.newsapi.data.Result;
 
-
 @Path("news")
 public class News {
 
@@ -39,11 +38,6 @@ public class News {
 		logic.setCategory("technology");
 
 		Result result = logic.readData();
-
-		// System.out.println("Status:" + result.getStatus() + ", errorCode:" +
-		// result.getCode() + ", message:" + result.getMessage() + " count:" +
-		// result.getTotalResults());
-		System.out.println("Language:" + result.getCountry() + ", category:" + result.getCategory());
 		for (Article article : result.getArticles()) {
 			System.out.println(article);
 		}
