@@ -1,6 +1,10 @@
-package ab.impl.org.newsapi.data;
+package ab.impl.org.newsapi.topheadlines.data;
 
 import java.util.List;
+
+import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+
+import ab.impl.org.newsapi.core.data.Result;
 
 public class TopHeadlines implements Result {
 
@@ -80,5 +84,14 @@ public class TopHeadlines implements Result {
 	@Override
 	public int getAvailableArticlesToFetch() {
 		return totalResults;
+	}
+	
+	public List getItems(){
+		return articles;
+	}
+	
+	@Override
+	public String toString() {
+		return "ErrorCode:" + code + ", ErrorMessage:" + message; 
 	}
 }

@@ -1,9 +1,9 @@
-package ab.impl.org.newsapi.data;
+package ab.impl.org.newsapi.core.data;
 
 import java.util.List;
 
 public interface Result {
-	public List<Article> getArticles();
+	public List getItems();
 
 	public String getCountry();
 

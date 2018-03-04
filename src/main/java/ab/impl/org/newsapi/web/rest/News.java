@@ -9,8 +9,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import ab.impl.org.newsapi.core.Logic;
-import ab.impl.org.newsapi.data.Article;
-import ab.impl.org.newsapi.data.Result;
+import ab.impl.org.newsapi.core.data.Result;
+import ab.impl.org.newsapi.topheadlines.core.NewsApiTopHeadLinesImpl;
 
 @Path("news")
 public class News {
@@ -21,25 +21,22 @@ public class News {
 	public Response helloRestClient(@PathParam("lang") String lang, @PathParam("category") String category,
 			@QueryParam("pageSize") String pageSize, @QueryParam("page") String page) {
 
-		Logic logic = new Logic();
-		logic.setLang(lang);
-		logic.setCategory(category);
-		logic.setPageSize(pageSize);
-		logic.setPage(page);
-
+		Logic logic = new NewsApiTopHeadLinesImpl(lang, category, pageSize, page);
 		Result result = logic.readData();
 
 		return Response.status(200).entity(result).build();
 	}
 
 	public static void main(String[] args) {
-		Logic logic = new Logic();
-		logic.setLang("pl");
-		logic.setCategory("technology");
+		Logic logic = new NewsApiTopHeadLinesImpl("pl", "technology", null, null);
 
 		Result result = logic.readData();
-		for (Article article : result.getArticles()) {
-			System.out.println(article);
+		System.out.println(result);
+
+		if (result.getItems() != null) {
+			for (Object article : result.getItems()) {
+				System.out.println(article);
+			}
 		}
 	}
 }

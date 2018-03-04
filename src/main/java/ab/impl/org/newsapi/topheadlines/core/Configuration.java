@@ -1,4 +1,4 @@
-package ab.impl.org.newsapi.core;
+package ab.impl.org.newsapi.topheadlines.core;
 
 public class Configuration {
 	public final static String API_KEY_NAME = "X-Api-Key";

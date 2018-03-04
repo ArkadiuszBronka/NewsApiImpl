@@ -1,4 +1,4 @@
-package ab.impl.org.newsapi.data;
+package ab.impl.org.newsapi.topheadlines.data;
 
 import java.util.Date;
 
