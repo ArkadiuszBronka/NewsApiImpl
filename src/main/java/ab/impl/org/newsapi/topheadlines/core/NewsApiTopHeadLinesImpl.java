@@ -10,7 +10,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import ab.impl.org.newsapi.core.Logic;
-import ab.impl.org.newsapi.core.data.Result;
 import ab.impl.org.newsapi.topheadlines.data.TopHeadlines;
 
 public class NewsApiTopHeadLinesImpl implements Logic {
@@ -58,15 +57,13 @@ public class NewsApiTopHeadLinesImpl implements Logic {
 		this.page = page;
 	}
 
-	public Result readData() {
-		Result result = readDataFromSource();
+	public TopHeadlines readData() {
+		TopHeadlines result = readDataFromSource();
 		return result;
 	}
 
 	private TopHeadlines readDataFromSource() {
-		Client client = ClientBuilder.newClient();
-		WebTarget webTarget = client.target(Configuration.URL);
-		webTarget = webTarget.path(Configuration.PATH);
+		WebTarget webTarget = createConnection();
 
 		if (lang != null) {
 			webTarget = webTarget.queryParam(Configuration.LANG, lang);
@@ -84,43 +81,51 @@ public class NewsApiTopHeadLinesImpl implements Logic {
 			webTarget = webTarget.queryParam(Configuration.PAGE, page);
 		}
 
-		System.out.println(webTarget.toString());
-		// System.out.println(webTarget.getUri().toString());
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON)
 				.header(Configuration.API_KEY_NAME, Configuration.API_KEY_VALUE);
 
+		TopHeadlines topHeadlines = prepareResponse(invocationBuilder);
+
+		return topHeadlines;
+	}
+
+	private TopHeadlines prepareResponse(Invocation.Builder invocationBuilder) {
 		TopHeadlines topHeadlines = null;
 		try {
 			topHeadlines = invocationBuilder.get(TopHeadlines.class);
+			topHeadlines.setCode(200);
+			topHeadlines.setMessage("Success");
 		} catch (NotFoundException | NotAuthorizedException | BadRequestException e) {
-			// TODO: handle exception
-			System.out.println(e.getMessage());
 			topHeadlines = new TopHeadlines();
 			
 			switch (e.getResponse().getStatus()) {
 			case 400:
-				topHeadlines.setCode("400");
+				topHeadlines.setCode(400);
 				topHeadlines.setMessage("Bad Request. The request was unacceptable, often due to a missing or misconfigured parameter.");
 				break;
 			case 401:
-				topHeadlines.setCode("401");
+				topHeadlines.setCode(401);
 				topHeadlines.setMessage("Unauthorized. Your API key was missing from the request, or wasn't correct.");
 				break;
 			case 404:
-				topHeadlines.setCode("404");
+				topHeadlines.setCode(404);
 				topHeadlines.setMessage("Page not found.");
 				break;
 			default:
-				topHeadlines.setCode("500");
+				topHeadlines.setCode(500);
 				topHeadlines.setMessage("Server Error. Something went wrong on our side.");
 				break;
 			}
 		}
 		topHeadlines = extendResponseData(topHeadlines);
-
-		//System.out.println(topHeadlines);
-		
 		return topHeadlines;
+	}
+
+	private WebTarget createConnection() {
+		Client client = ClientBuilder.newClient();
+		WebTarget webTarget = client.target(Configuration.URL);
+		webTarget = webTarget.path(Configuration.PATH);
+		return webTarget;
 	}
 
 	private TopHeadlines extendResponseData(TopHeadlines topHeadlines) {

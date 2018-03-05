@@ -2,22 +2,19 @@ package ab.impl.org.newsapi.topheadlines.data;
 
 import java.util.List;
 
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTransient;
 
-import ab.impl.org.newsapi.core.data.Result;
-
-public class TopHeadlines implements Result {
-
+public class TopHeadlines {
 	private String status;
-	private String code;
+	private int code;
 	private String message;
-
 	private int totalResults;
 	private List<Article> articles;
-
 	private String lang;
 	private String category;
 
+	@JsonbTransient
 	public String getStatus() {
 		return status;
 	}
@@ -26,20 +23,27 @@ public class TopHeadlines implements Result {
 		this.status = status;
 	}
 
-	public String getCode() {
+	@JsonbTransient
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 
+	@JsonbTransient
 	public String getMessage() {
 		return message;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	@JsonbTransient
+	public int getTotalResults() {
+		return totalResults;
 	}
 
 	public void setTotalResults(int totalResults) {
@@ -52,6 +56,11 @@ public class TopHeadlines implements Result {
 
 	public void setArticles(List<Article> articles) {
 		this.articles = articles;
+	}
+
+	@JsonbProperty("country")
+	public String getLang() {
+		return lang;
 	}
 
 	public void setLang(String lang) {
@@ -67,31 +76,7 @@ public class TopHeadlines implements Result {
 	}
 
 	@Override
-	public String getCountry() {
-		return lang;
-	}
-
-	@Override
-	public String getErrorCode() {
-		return getCode();
-	}
-
-	@Override
-	public String getErrorMesage() {
-		return getMessage();
-	}
-
-	@Override
-	public int getAvailableArticlesToFetch() {
-		return totalResults;
-	}
-	
-	public List getItems(){
-		return articles;
-	}
-	
-	@Override
 	public String toString() {
-		return "ErrorCode:" + code + ", ErrorMessage:" + message; 
+		return "ErrorCode:" + code + ", ErrorMessage:" + message;
 	}
 }

@@ -6,7 +6,7 @@ import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.json.bind.annotation.JsonbTransient;
 
-public class Article {
+public class Article {	
 	private Source source;
 	private String author;
 	private String title;
