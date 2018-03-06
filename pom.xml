@@ -18,6 +18,17 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+			<artifactId>jersey-test-framework-provider-jdk-http</artifactId>
+			<version>2.26</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+			<artifactId>jersey-guava</artifactId>
+			<version>2.26-b03</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>2.1</version>
@@ -37,13 +48,8 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.8.4</version>
 		</dependency>
-<!--		
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>2.8.4</version>
-		</dependency>
--->
+		<!-- <dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-annotations</artifactId> 
+			<version>2.8.4</version> </dependency> -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -69,13 +75,8 @@
 			<artifactId>aopalliance-repackaged</artifactId>
 			<version>2.5.0-b42</version>
 		</dependency>
-<!--		
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.1</version>
-		</dependency>
--->
+		<!-- <dependency> <groupId>javax.enterprise</groupId> <artifactId>cdi-api</artifactId> 
+			<version>1.1</version> </dependency> -->
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
@@ -147,21 +148,18 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.inject</groupId>
 			<artifactId>jersey-hk2</artifactId>
-<!-- 2.26-b06 -->			<version>2.26</version>
+			<!-- 2.26-b06 -->
+			<version>2.26</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-binding</artifactId>
-<!-- 2.26-b04 -->			<version>2.26</version>
-		</dependency>
-<!--
-		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
+			<!-- 2.26-b04 -->
 			<version>2.26</version>
 		</dependency>
--->
-<!-- 2.24 -->
+		<!-- <dependency> <groupId>org.glassfish.jersey.media</groupId> <artifactId>jersey-media-json-jackson</artifactId> 
+			<version>2.26</version> </dependency> -->
+		<!-- 2.24 -->
 
 
 		<dependency>

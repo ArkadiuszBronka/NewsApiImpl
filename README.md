@@ -5,6 +5,7 @@
 Prerequisites:
 * Tomcat 9.0.5 - [link](https://tomcat.apache.org/download-90.cgi) 
 * Apache Maven 3.5.2 - [link](https://maven.apache.org/download.cgi)
+* Java 8 (jdk1.8.0_45)
 
 Preparing war file:
 Go to project root directory (~\NewsApiImpl) and execute operation:
